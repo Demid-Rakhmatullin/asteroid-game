@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using States;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -20,7 +21,10 @@ public class AsteroidEmitterScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!GameScript.isStartedAlready())
+        //if (!GameScript.isStartedAlready())
+        //    return;
+
+        if (!GameState.GameStarted.Value)
             return;
 
         if (Time.time > nextSpawn)

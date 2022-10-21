@@ -8,7 +8,7 @@ public class GameScript : MonoBehaviour
     public GameObject startButton;
     public GameObject menu;
 
-    private bool isStarted = false;
+    public bool isStarted = false;
     private int score = 0;
 
     public bool isStartedAlready()
@@ -25,11 +25,11 @@ public class GameScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        startButton.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() =>
-        {
-            menu.SetActive(false);
-            isStarted = true;
-        });
+        //startButton.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() =>
+        //{
+        //    menu.SetActive(false);
+        //    isStarted = true;
+        //});
     }
 
     // Update is called once per frame
