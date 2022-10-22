@@ -1,9 +1,11 @@
 ﻿using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 using UniRx;
 using UniRx.Triggers;
 using Utils;
 using Models;
+using System;
 
 namespace Presenters
 {
@@ -12,7 +14,10 @@ namespace Presenters
         const string HORIZONTAL_AXIS = "Horizontal";
         const string VERTICAL_AXIS = "Vertical";
         const string FIRE_BTN = "Fire1";
+        const float DAMAGE_ANIM_INTERVAL = 0.15f;
+        const int DAMAGE_ANIM_MAX_COUNT = 6;
 
+        [SerializeField] int initialHp;
         [SerializeField] float speed;
         [SerializeField] float tilt;
         [SerializeField] float moveBorderLeft, moveBorderRight, moveBorderBottom, moveBorderTop;
@@ -21,19 +26,27 @@ namespace Presenters
         [SerializeField] Transform gun;
         [SerializeField] float shotDelay;
 
+        [SerializeField] GameObject mesh;
         [SerializeField] GameObject explosion;
+        [SerializeField] Text hpText;
 
+        private PlayerModel player;
         private Rigidbody rb;
-        private float nextShotTime; // в PlayerModel?
+
+        private int damageAnimCounter;
+        private bool damageAnimInProgress;
 
         void Start()
         {
             rb = GetComponent<Rigidbody>();
 
+            player = new PlayerModel(initialHp);
+            player.CurrentHp.SubscribeToText(hpText);
+
             GameStaticModel.State
                .Where(s => s == GameState.Started)
                .Subscribe(_ => Activate())
-               .AddTo(this);
+               .AddTo(this);          
         }
 
         private void Activate()
@@ -46,13 +59,18 @@ namespace Presenters
 
             Observable
                 .EveryUpdate()
-                .Where(_ => Input.GetButton(FIRE_BTN) && Time.time > nextShotTime)
+                .Where(_ => Input.GetButton(FIRE_BTN) && Time.time > player.NextShotTime)
                 .Subscribe(_ => Shot())
                 .AddTo(this);
 
             this.OnTriggerEnterAsObservable()
                 .Where(other => other.CompareTagEnum(Tags.Obstacle))
-                .Subscribe(_ => Explode());
+                .Subscribe(_ => ObstacleCollision());
+            
+            player.OnDamaged
+                .Do(_ => damageAnimCounter = DAMAGE_ANIM_MAX_COUNT)
+                .Where(_ => !damageAnimInProgress)
+                .Subscribe(_ => DamageAnimation());
         }
 
         private void Move(float horizontal, float vertical)
@@ -68,13 +86,35 @@ namespace Presenters
         private void Shot()
         {
             Instantiate(lazerShot, gun.position, Quaternion.identity, transform);
-            nextShotTime = Time.time + shotDelay;
+            player.NextShotTime = Time.time + shotDelay;
         }
 
-        private void Explode()
+        private void ObstacleCollision()
         {
-            Instantiate(explosion, transform.position, Quaternion.identity);
-            Destroy(gameObject);
+            player.CurrentHp.Value--;
+            //DamageAnimation();
+
+
+            //Instantiate(explosion, transform.position, Quaternion.identity);
+            //Destroy(gameObject);
+        }
+
+        private void DamageAnimation()
+        {
+            damageAnimInProgress = true;
+            Observable
+                .Interval(TimeSpan.FromSeconds(DAMAGE_ANIM_INTERVAL))
+                .TakeWhile(_ => damageAnimCounter > 0)
+                .DoOnCompleted(() =>
+                    {
+                        mesh.SetActive(true);
+                        damageAnimInProgress = false; 
+                    })
+                .Subscribe(_ =>
+                    {
+                        mesh.SetActive(!mesh.activeSelf);
+                        damageAnimCounter--;
+                    });
         }
     }
 }

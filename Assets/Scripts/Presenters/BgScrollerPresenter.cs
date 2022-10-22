@@ -9,7 +9,7 @@ namespace Presenters
     {
         [SerializeField] float speed;
 
-        private Vector3 startPos; //в model?
+        private Vector3 startPos;
 
         void Start()
         {
