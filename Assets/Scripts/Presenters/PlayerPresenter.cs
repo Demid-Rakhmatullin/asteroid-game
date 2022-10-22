@@ -1,11 +1,11 @@
 ﻿using System.Linq;
 using UnityEngine;
-using UnityEngine.UI;
 using UniRx;
 using UniRx.Triggers;
 using Utils;
 using Models;
 using System;
+using Data;
 
 namespace Presenters
 {
@@ -28,10 +28,10 @@ namespace Presenters
 
         [SerializeField] GameObject mesh;
         [SerializeField] GameObject explosion;
-        [SerializeField] Text hpText;
 
         private PlayerModel player;
         private Rigidbody rb;
+        private IDisposable moveSubscription, fireSubscription;
 
         private int damageAnimCounter;
         private bool damageAnimInProgress;
@@ -39,25 +39,15 @@ namespace Presenters
         void Start()
         {
             rb = GetComponent<Rigidbody>();
-
             player = new PlayerModel(initialHp);
-            player.CurrentHp.SubscribeToText(hpText);
 
-            GameStaticModel.State
-               .Where(s => s == GameState.Started)
-               .Subscribe(_ => Activate())
-               .AddTo(this);          
-        }
-
-        private void Activate()
-        {
-            Observable
+            moveSubscription = Observable
                 .EveryUpdate()
                 .Select(_ => (Input.GetAxis(HORIZONTAL_AXIS), Input.GetAxis(VERTICAL_AXIS)))
                 .Subscribe(x => Move(x.Item1, x.Item2))
                 .AddTo(this);
 
-            Observable
+            fireSubscription = Observable
                 .EveryUpdate()
                 .Where(_ => Input.GetButton(FIRE_BTN) && Time.time > player.NextShotTime)
                 .Subscribe(_ => Shot())
@@ -65,12 +55,21 @@ namespace Presenters
 
             this.OnTriggerEnterAsObservable()
                 .Where(other => other.CompareTagEnum(Tags.Obstacle))
-                .Subscribe(_ => ObstacleCollision());
-            
+                .Subscribe(_ => player.CurrentHp.Value--);
+
             player.OnDamaged
                 .Do(_ => damageAnimCounter = DAMAGE_ANIM_MAX_COUNT)
                 .Where(_ => !damageAnimInProgress)
                 .Subscribe(_ => DamageAnimation());
+
+            player.IsDead
+                .Where(isDead => isDead)
+                .Subscribe(_ => Die());
+
+            DataHub.GameState
+                .Where(s => s == GameState.Win)
+                .Subscribe(_ => WinFlight())
+                .AddTo(this);
         }
 
         private void Move(float horizontal, float vertical)
@@ -89,14 +88,12 @@ namespace Presenters
             player.NextShotTime = Time.time + shotDelay;
         }
 
-        private void ObstacleCollision()
+        private void Die()
         {
-            player.CurrentHp.Value--;
-            //DamageAnimation();
+            DataHub.GameState.Value = GameState.Losed;
 
-
-            //Instantiate(explosion, transform.position, Quaternion.identity);
-            //Destroy(gameObject);
+            Instantiate(explosion, transform.position, Quaternion.identity);
+            Destroy(gameObject);
         }
 
         private void DamageAnimation()
@@ -114,7 +111,15 @@ namespace Presenters
                     {
                         mesh.SetActive(!mesh.activeSelf);
                         damageAnimCounter--;
-                    });
+                    })
+                .AddTo(this);
+        }
+
+        private void WinFlight()
+        {
+            moveSubscription.Dispose();
+            fireSubscription.Dispose();
+            rb.AddForce(0, 0, 50, ForceMode.VelocityChange);
         }
     }
 }

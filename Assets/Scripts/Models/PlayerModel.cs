@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Messages;
+using System;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UniRx;
-using UnityEngine;
 
 namespace Models
 {
@@ -12,7 +9,7 @@ namespace Models
     {
         public float NextShotTime { get; set; }
 
-        public IReactiveProperty<long> CurrentHp { get; private set; }
+        public IReactiveProperty<int> CurrentHp { get; private set; }
         public IReadOnlyReactiveProperty<bool> IsDead { get; private set; }
 
         public IObservable<Unit> OnDamaged { get; private set; }
@@ -20,15 +17,23 @@ namespace Models
 
         public PlayerModel(int initialHp)
         {
-            CurrentHp = new ReactiveProperty<long>(initialHp);
+            CurrentHp = new ReactiveProperty<int>(initialHp);
             IsDead = CurrentHp
                 .Select(hp => hp <= 0)
                 .ToReactiveProperty();
             OnDamaged = CurrentHp
-                //.Where(_ => !IsDead.Value)
+                .Where(_ => !IsDead.Value)
                 .Buffer(2, 1)               
                 .Where(b => b[0] > b[1])
                 .AsUnitObservable();
+
+            CurrentHp
+                .Subscribe(hp =>
+                {
+                    MessageBroker.Default.Publish(
+                        new PlayerHpChangedMessage { Value = hp });
+                });
+
         }
     }
 }

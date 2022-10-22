@@ -1,4 +1,4 @@
-﻿using Models;
+﻿using Data;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,10 +10,13 @@ namespace Presenters
         [SerializeField] GameObject homeUI;
         [SerializeField] Button startButton;
 
-        //private HomeModel model = new HomeModel();
-
         void Start()
         {
+            DataHub.GameState
+               .Where(s => s == GameState.Stopped)
+               .Subscribe(_ => homeUI.SetActive(true))
+               .AddTo(this);
+
             startButton
                 .OnClickAsObservable()
                 .Subscribe(_ => StartGame());
@@ -22,7 +25,7 @@ namespace Presenters
         private void StartGame()
         {
             homeUI.SetActive(false);
-            GameStaticModel.State.Value = GameState.Started;
+            DataHub.GameState.Value = GameState.Started;
         }
     }
 }

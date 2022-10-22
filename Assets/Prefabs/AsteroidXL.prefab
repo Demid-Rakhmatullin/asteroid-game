@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1066434375536091728, guid: 18cf63bda5743ff40a10eeaf4046bb13,
+        type: 3}
+      propertyPath: scoreBonus
+      value: 150
+      objectReference: {fileID: 0}
     - target: {fileID: 8633340814322895917, guid: 18cf63bda5743ff40a10eeaf4046bb13,
         type: 3}
       propertyPath: m_Radius
@@ -70,7 +75,7 @@ PrefabInstance:
     - target: {fileID: 8633340814322895919, guid: 18cf63bda5743ff40a10eeaf4046bb13,
         type: 3}
       propertyPath: m_Name
-      value: Asteroid3
+      value: AsteroidXL
       objectReference: {fileID: 0}
     - target: {fileID: 8633340815401634360, guid: 18cf63bda5743ff40a10eeaf4046bb13,
         type: 3}

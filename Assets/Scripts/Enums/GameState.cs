@@ -1,7 +1,9 @@
 ﻿
 public enum GameState
 {
-    Paused,
-    Started
+    Stopped,
+    Started,
+    Losed,
+    Win
 }
 
