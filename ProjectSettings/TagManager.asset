@@ -11,6 +11,8 @@ TagManager:
   - Laser
   - Player Laser
   - Enemy Laser
+  - Obstacle
+  - PlayerProjectile
   layers:
   - Default
   - TransparentFX

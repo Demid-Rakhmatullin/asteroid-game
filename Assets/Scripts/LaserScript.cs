@@ -9,7 +9,7 @@ public class LaserScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GetComponent<Rigidbody>().velocity = Vector3.forward * speed;
+        //GetComponent<Rigidbody>().velocity = Vector3.forward * speed;
     }
    
 }

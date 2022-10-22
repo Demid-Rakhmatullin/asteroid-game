@@ -1,19 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!136 &549143085750374659
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7362506329438378049}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  m_Radius: 8.16
-  m_Height: 33.94
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &1288919845385294958
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -21,10 +7,15 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 8633340814322895919, guid: 18cf63bda5743ff40a10eeaf4046bb13,
+    - target: {fileID: 8633340814322895917, guid: 18cf63bda5743ff40a10eeaf4046bb13,
         type: 3}
-      propertyPath: m_Name
-      value: Asteroid1
+      propertyPath: m_Radius
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 8633340814322895918, guid: 18cf63bda5743ff40a10eeaf4046bb13,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8633340814322895918, guid: 18cf63bda5743ff40a10eeaf4046bb13,
         type: 3}
@@ -43,28 +34,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8633340814322895918, guid: 18cf63bda5743ff40a10eeaf4046bb13,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.54334855
+      objectReference: {fileID: 0}
+    - target: {fileID: 8633340814322895918, guid: 18cf63bda5743ff40a10eeaf4046bb13,
+        type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.7162328
+      value: 0.6764902
       objectReference: {fileID: 0}
     - target: {fileID: 8633340814322895918, guid: 18cf63bda5743ff40a10eeaf4046bb13,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.30801392
+      value: 0.3875862
       objectReference: {fileID: 0}
     - target: {fileID: 8633340814322895918, guid: 18cf63bda5743ff40a10eeaf4046bb13,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.24739292
-      objectReference: {fileID: 0}
-    - target: {fileID: 8633340814322895918, guid: 18cf63bda5743ff40a10eeaf4046bb13,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.5752693
-      objectReference: {fileID: 0}
-    - target: {fileID: 8633340814322895918, guid: 18cf63bda5743ff40a10eeaf4046bb13,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
+      value: -0.3113044
       objectReference: {fileID: 0}
     - target: {fileID: 8633340814322895918, guid: 18cf63bda5743ff40a10eeaf4046bb13,
         type: 3}
@@ -79,12 +65,12 @@ PrefabInstance:
     - target: {fileID: 8633340814322895918, guid: 18cf63bda5743ff40a10eeaf4046bb13,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: -46.54
+      value: -59.62
       objectReference: {fileID: 0}
-    - target: {fileID: 8633340814322895917, guid: 18cf63bda5743ff40a10eeaf4046bb13,
+    - target: {fileID: 8633340814322895919, guid: 18cf63bda5743ff40a10eeaf4046bb13,
         type: 3}
-      propertyPath: m_Radius
-      value: 12
+      propertyPath: m_Name
+      value: Asteroid3
       objectReference: {fileID: 0}
     - target: {fileID: 8633340815401634360, guid: 18cf63bda5743ff40a10eeaf4046bb13,
         type: 3}
@@ -106,6 +92,20 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1288919845385294958}
   m_PrefabAsset: {fileID: 0}
+--- !u!136 &549143085750374659
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7362506329438378049}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 8.16
+  m_Height: 33.94
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &7476731227215191961
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -116,6 +116,22 @@ PrefabInstance:
     - target: {fileID: 100000, guid: dff3582f22aaef14b9c0b575cdaffa0e, type: 3}
       propertyPath: m_Name
       value: Asteroid_05_XXL
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: dff3582f22aaef14b9c0b575cdaffa0e, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: dff3582f22aaef14b9c0b575cdaffa0e, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: dff3582f22aaef14b9c0b575cdaffa0e, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: dff3582f22aaef14b9c0b575cdaffa0e, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: dff3582f22aaef14b9c0b575cdaffa0e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -130,6 +146,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: dff3582f22aaef14b9c0b575cdaffa0e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: dff3582f22aaef14b9c0b575cdaffa0e, type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
@@ -139,15 +159,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: dff3582f22aaef14b9c0b575cdaffa0e, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.113896795
-      objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: dff3582f22aaef14b9c0b575cdaffa0e, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.9934926
-      objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: dff3582f22aaef14b9c0b575cdaffa0e, type: 3}
-      propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: dff3582f22aaef14b9c0b575cdaffa0e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -159,19 +171,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: dff3582f22aaef14b9c0b575cdaffa0e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: -13.08
-      objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: dff3582f22aaef14b9c0b575cdaffa0e, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: dff3582f22aaef14b9c0b575cdaffa0e, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: dff3582f22aaef14b9c0b575cdaffa0e, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 10
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dff3582f22aaef14b9c0b575cdaffa0e, type: 3}

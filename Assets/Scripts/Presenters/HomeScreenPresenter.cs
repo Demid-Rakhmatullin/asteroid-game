@@ -1,11 +1,11 @@
-﻿using States;
+﻿using Models;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Presenters
 {
-    public class HomePresenter : MonoBehaviour
+    public class HomeScreenPresenter : BasePresenter
     {
         [SerializeField] GameObject homeUI;
         [SerializeField] Button startButton;
@@ -22,8 +22,7 @@ namespace Presenters
         private void StartGame()
         {
             homeUI.SetActive(false);
-            GameState.GameStarted.Value = true;
-            GameObject.FindGameObjectWithTag("GameController").GetComponent<GameScript>().isStarted = true; //убрать
+            GameStaticModel.State.Value = GameState.Started;
         }
     }
 }
