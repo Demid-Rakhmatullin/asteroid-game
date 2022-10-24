@@ -13,6 +13,7 @@ namespace Presenters
         [SerializeField] GameObject PlayerPrefab;
         [SerializeField] Text hpCounter;
         [SerializeField] Text scoreCounter;
+        [SerializeField] Text levelNameText;
         [SerializeField] Text winScoreText;
         [SerializeField] Text winText;
         [SerializeField] Text loseText;
@@ -47,9 +48,10 @@ namespace Presenters
 
         private void StartGame()
         {
-            level = new LevelModel(200);
+            level = new LevelModel(DataHub.CurrentLevelData.WinScore);
             level.CurrentScore.SubscribeToText(scoreCounter);
             winScoreText.text = level.WinScore.ToString();
+            levelNameText.text = DataHub.CurrentLevelName;
 
             level.IsWin
                 .Where(isWin => isWin)
@@ -67,11 +69,14 @@ namespace Presenters
         }
 
         private void WinGame()
-            => EndGame(winText);
+        {
+            EndGame(winText);
+            level.ProcessWin();
+        }
 
         private void LoseGame()
             => EndGame(loseText);
-
+  
         private void EndGame(Text endText)
         {
             endText.gameObject.SetActive(true);
@@ -80,16 +85,15 @@ namespace Presenters
                 .Timer(TimeSpan.FromSeconds(3))
                 .Subscribe(_ =>
                 {
+                    CleanUp();
                     endText.gameObject.SetActive(false);
-                    DataHub.GameState.Value = GameState.Stopped;
+                    DataHub.GameState.Value = GameState.SelectLevel;
                 })
-                .AddTo(this);
-
-            CleanUp();
+                .AddTo(this);            
         }
 
         private void CleanUp()
-        {
+        {            
             level = null;
             levelSubscriptions.Clear();
         }

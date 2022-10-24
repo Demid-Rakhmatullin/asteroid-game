@@ -4,10 +4,11 @@ using UniRx.Triggers;
 using Utils;
 using Data;
 using Messages;
+using Infrastructure;
 
 namespace Presenters
 {
-    public class AsteroidPresenter : BasePresenter
+    public class AsteroidPresenter : BasePresenter, IObstacle
     {
         [SerializeField] float rotationSpeed;
         [SerializeField] float minSpeed;
@@ -15,6 +16,11 @@ namespace Presenters
         [SerializeField] GameObject explosion;
 
         [SerializeField] int scoreBonus;
+        [SerializeField] ObstacleType type;
+
+        public ObstacleType Type => type;
+
+        public GameObject Prefab => gameObject;
 
         void Start()
         {
@@ -34,7 +40,7 @@ namespace Presenters
                 .AddTo(this);
 
             DataHub.GameState
-                .Where(s => s == GameState.Stopped)
+                .Where(s => s == GameState.SelectLevel || s == GameState.Stopped)
                 .Subscribe(_ => Destroy(gameObject))
                 .AddTo(this);            
         }

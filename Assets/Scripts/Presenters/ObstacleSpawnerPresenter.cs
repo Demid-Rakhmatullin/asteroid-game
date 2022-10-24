@@ -10,30 +10,34 @@ namespace Presenters
     public class ObstacleSpawnerPresenter : BasePresenter
     {
         [SerializeField] float minDelay;
-        [SerializeField] float maxDelay;
 
-        [SerializeField] GameObject[] obstacles;
+        [SerializeField] AsteroidPresenter[] obstacles;
 
         private ObstacleSpawnerModel model;
         private IDisposable spawnSubscription;
 
         void Start()
-        {
-            model = new ObstacleSpawnerModel(obstacles, minDelay, maxDelay, -55/2, 55/2);
-
+        {           
             DataHub.GameState
                 .Where(s => s == GameState.Started)
                 .Subscribe(_ => StartSpawn())
                 .AddTo(this);
 
             DataHub.GameState
-                .Where(s => s == GameState.Stopped || s == GameState.Win)
+                .Where(s => s == GameState.Stopped || s == GameState.SelectLevel || s == GameState.Win)
                 .Subscribe(_ => StopSpawn())
                 .AddTo(this);
         }
 
         private void StartSpawn()
         {
+            model = new ObstacleSpawnerModel(
+                DataHub.CurrentLevelData.ObstacleTypes,
+                obstacles,
+                minDelay,
+                DataHub.CurrentLevelData.ObstacleSpawnMaxDelay,
+                -55 / 2, 55 / 2);
+
             spawnSubscription = 
                 Observable
                     .EveryUpdate()

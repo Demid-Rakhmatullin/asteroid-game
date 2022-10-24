@@ -25,7 +25,7 @@ namespace Presenters
         private void StartGame()
         {
             homeUI.SetActive(false);
-            DataHub.GameState.Value = GameState.Started;
+            DataHub.GameState.Value = GameState.SelectLevel;
         }
     }
 }

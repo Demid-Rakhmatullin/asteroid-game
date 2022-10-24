@@ -78,7 +78,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Level 1
+  m_Text: Level
 --- !u!1 &8483301047710665649
 GameObject:
   m_ObjectHideFlags: 0
@@ -183,12 +183,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6538d46ba8c1bc4894a187768a66c56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelId: 
+  levelName: 
+  previousLevelSelector: {fileID: 0}
+  levelNameText: {fileID: 8483301047090775991}
+  selectButton: {fileID: 6864383434312995008}
+  markerImage: {fileID: 8483301047971284941}
+  openSprite: {fileID: 1830015451716280101, guid: b697cad4362457741abee5b34e5c096e,
+    type: 3}
+  closedSprite: {fileID: 7189444456444790100, guid: b697cad4362457741abee5b34e5c096e,
+    type: 3}
+  completedSprite: {fileID: 2636958333823685788, guid: b697cad4362457741abee5b34e5c096e,
+    type: 3}
   levelData:
     State: 0
     WinScore: 0
     ObstacleTypes: 
     ObstacleSpawnMaxDelay: 0
-  previousSelector: {fileID: 0}
 --- !u!1 &8483301047971284931
 GameObject:
   m_ObjectHideFlags: 0

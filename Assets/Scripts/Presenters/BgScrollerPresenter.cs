@@ -23,8 +23,7 @@ namespace Presenters
                 .AddTo(this);
 
             DataHub.GameState
-                .Where(s => s == GameState.Stopped)
-                .Skip(1) //initial call
+                .Where(s => s == GameState.Stopped || s == GameState.SelectLevel)
                 .Subscribe(_ => StopScroll())
                 .AddTo(this);
         }
@@ -38,14 +37,17 @@ namespace Presenters
                         {
                             var shift = Mathf.Repeat(Time.time * speed, transform.localScale.y);
                             transform.position = startPos + Vector3.back * shift;
-                        })//;
+                        })
                     .AddTo(this);
         }
 
         private void StopScroll()
         {
-            scrollSubscription.Dispose();
-            transform.position = startPos;
+            if (scrollSubscription != null)
+            {
+                scrollSubscription.Dispose();
+                transform.position = startPos;
+            }
         }
     }
 }

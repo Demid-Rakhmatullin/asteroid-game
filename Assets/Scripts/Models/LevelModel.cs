@@ -1,4 +1,6 @@
-﻿using UniRx;
+﻿using Data;
+using Persistence;
+using UniRx;
 
 namespace Models
 {
@@ -18,6 +20,13 @@ namespace Models
             IsWin = CurrentScore
                 .Select(s => s >= WinScore)
                 .ToReactiveProperty();
+        }
+
+        public void ProcessWin()
+        {
+            var levelData = DataHub.CurrentLevelData;
+            levelData.State = LevelDataState.Completed;
+            LevelDataRepository.Instance.Update(DataHub.CurrentLevelId, levelData);
         }
     }
 }

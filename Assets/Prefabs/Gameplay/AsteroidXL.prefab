@@ -9,6 +9,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1066434375536091728, guid: 18cf63bda5743ff40a10eeaf4046bb13,
         type: 3}
+      propertyPath: type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1066434375536091728, guid: 18cf63bda5743ff40a10eeaf4046bb13,
+        type: 3}
       propertyPath: scoreBonus
       value: 150
       objectReference: {fileID: 0}
@@ -84,6 +89,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8633340814322895917, guid: 18cf63bda5743ff40a10eeaf4046bb13, type: 3}
+    - {fileID: 8633340814322895923, guid: 18cf63bda5743ff40a10eeaf4046bb13, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 18cf63bda5743ff40a10eeaf4046bb13, type: 3}
 --- !u!1 &7362506329438378049 stripped
 GameObject:

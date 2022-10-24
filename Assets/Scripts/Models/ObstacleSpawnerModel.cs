@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using Infrastructure;
+using System.Linq;
+using UnityEngine;
 
 namespace Models
 {
@@ -12,20 +14,26 @@ namespace Models
         private float minXShift;
         private float maxXShift;
 
-        public ObstacleSpawnerModel(GameObject[] obstacles, float minDelay, float maxDelay, float minXShift, float maxXShift)
+        public ObstacleSpawnerModel(ObstacleType[] obstacleTypes, IObstacle[] allObstacles, 
+            float minDelay, float maxDelay, float minXShift, float maxXShift)
         {
-            this.obstacles = obstacles;
+            //this.obstacles = allObstacles;
             this.minDelay = minDelay;
             this.maxDelay = maxDelay;
             this.minXShift = minXShift;
             this.maxXShift = maxXShift;
+
+            obstacles = allObstacles
+                .Where(o => obstacleTypes.Contains(o.Type))
+                .Select(o => o.Prefab)
+                .ToArray();
         }
 
         public ObstacleData CreateObstacle(float time)
         {
             var xShift = Random.Range(minXShift, maxXShift);
 
-            var obstacleIndex = Random.Range(0, 3);
+            var obstacleIndex = Random.Range(0, obstacles.Length);
             var obstacle = obstacles[obstacleIndex];
 
             NextSpawnTime = time + Random.Range(minDelay, maxDelay);
